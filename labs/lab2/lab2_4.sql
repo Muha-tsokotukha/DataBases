@@ -3,9 +3,16 @@ select id from products;
 insert into products values ('hair1' ,'Pour','hair powder', 5.5 );
 delete from products
 where id='face1';
+
+insert into products values ('feet1' ,'Aloe','Feet cream', 11.99 );
+update products
+set id = 'hands1'
+where id='feet1';
+
 select * from products;
 --
 insert into customers values(1, 'James Charles', '2004-10-19 10:23:54', 'LA, Tempe');
+
 select * from customers;
 --
 

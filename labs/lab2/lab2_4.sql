@@ -4,7 +4,7 @@ insert into products values ('hair1' ,'Pour','hair powder', 5.5 );
 delete from products
 where id='face1';
 
-insert into products values ('feet1' ,'Aloe','Feet cream', 11.99 );
+insert into products values ('feet1' ,'Aloe','Cream', 11.99 );
 update products
 set id = 'hands1'
 where id='feet1';

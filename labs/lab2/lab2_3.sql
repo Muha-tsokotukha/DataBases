@@ -37,17 +37,20 @@ create table rooms(
     num int primary key
 );
 
+
 create table lesson_participants(
     id int primary key ,
     instructor_id int not null,
+    students_id int not null ,
     title varchar not null ,
     room int not null ,
     foreign key (instructor_id) references instructor(id),
     foreign key (title) references  disciplines(name),
-    foreign key (room) references  rooms (num)
+    foreign key (room) references  rooms (num),
+    foreign key (students_id) references students(id)
 );
 
-create table study(
+create table  study(
     stud_id int not null ,
     lesson varchar not null,
     foreign key (lesson) references disciplines(name),

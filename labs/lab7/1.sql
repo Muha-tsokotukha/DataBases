@@ -26,16 +26,33 @@ alter user Kenesbay createrole;
 
 revoke delete on transactions from Nassyr;
 
-
-
 -- 3. add not null constraints
-
 alter table transactions alter column date set not null;
 alter table customers alter column name set not null;
 alter table accounts alter column currency set not null ;
 
+--5
+--index so that each customer can only have one account of one currency
+create index src_am on accounts(customer_id, currency);
+--index for searching transactions by currency and balance
+create index cur_bal on accounts(currency, balance);
 
--- 5. Create indexes:
--- index for searching transactions by currency and balance
-create index cur_bal on accounts( currency,balance );
--- create index cur_bal on transactions( src_account, amount );
+
+-- 6.
+-- create transaction with "init" status
+begin;
+
+update accounts
+set balance = balance -transactions.amount
+from transactions
+where account_id=transactions.src_account and transactions.status='init'
+and (balance-transactions.amount) >= accounts.limit;
+commit;
+update accounts
+set balance = balance + transactions.amount
+from transactions
+where account_id=transactions.dst_account and transactions.status='init';
+commit ;
+rollback ;
+
+select * from accounts;

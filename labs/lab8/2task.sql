@@ -57,3 +57,63 @@ insert into person2(name, total_bought_price) values ('Daria', 200);
 
 
 -- d. Prevents deletion of any row from only one table.
+
+create function d_trig_func() returns trigger
+    language plpgsql
+    as
+    $$
+       begin
+           return null;
+       end;
+    $$;
+
+create trigger d_trig before delete on person2
+    for each row execute procedure d_trig_func();
+
+delete from person2 where name = 'Kenes';
+
+-- e. Launches functions 1.d and 1.e.
+
+create function d_val()
+    returns trigger
+    language plpgsql
+   as
+    $$
+    declare numm boolean = false;
+    declare x varchar;
+    declare s varchar = person2.name;
+        begin
+            if length(s) < 8 then return null;
+            end if;
+            foreach x in array regexp_split_to_array(s, '')
+                loop
+                if x ~ '[0-9]' then  numm = true;
+            end if; end loop;
+            if numm = false then return null;
+            end if;
+            return new;
+        end;
+    $$;
+
+create trigger e_val before update on person2
+    for each row execute procedure d_val();
+
+update person2
+set name = 'Msdhjsdjd4'
+where name = 'Daria';
+
+create table length_of_string(word varchar, w int );
+
+create function e_len_str( ) returns trigger language plpgsql
+as
+    $$
+        begin
+            update length_of_string set w = length(word);
+            return new;
+        end;
+    $$;
+create trigger e_len_tr after insert on length_of_string
+    for each row execute procedure e_len_str();
+
+insert into length_of_string(word) values ('Abacaba');
+

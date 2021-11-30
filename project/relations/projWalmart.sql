@@ -9,6 +9,7 @@ create table orders(
 
 
 create table order_items(
+    name varchar,
     o_id serial,
     upc varchar,
     foreign key (o_id) references orders(o_id),
@@ -26,7 +27,7 @@ create table type(type_name varchar primary key );
 
 create table Product_type(sizes varchar,  name varchar primary key );
 
-create table products(upc varchar primary key , cost float, p_size varchar );
+create table products(upc varchar primary key , name varchar,cost float, p_size varchar );
 
 
 

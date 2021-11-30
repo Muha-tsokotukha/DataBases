@@ -17,3 +17,9 @@ create table order_items(
 );
 
 
+create table cus_ord (
+    c_id integer,
+    o_id integer,
+    foreign key (c_id) references customers(c_id),
+    foreign key (o_id) references orders(o_id)
+);

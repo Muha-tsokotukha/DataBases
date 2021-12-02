@@ -38,15 +38,15 @@ as
                 prod_name =  (
                     select name from products2  where order_items.upc = products2.upc);
 
-            UPDATE orders o
+            UPDATE orders m
                 SET total_cost = f.valsum
-            FROM
+                FROM
                 (
                   SELECT o_id, SUM(_cost) valsum
                   FROM order_items
                   GROUP BY  o_id
                 ) f
-            ;
+                WHERE m.o_id = f.o_id;
 
             return new;
         end;

@@ -26,6 +26,7 @@ create table cus_ord (
 -- procedure to compute total cost of an order
 
 alter table order_items add column _cost float;
+alter table order_items add column prod_name varchar;
 
 create function cost_finder() returns trigger
 language plpgsql
@@ -33,7 +34,9 @@ as
     $$
         begin
             update order_items set _cost =
-                (select cost from products where order_items.upc=products.upc);
+                (select cost from products where order_items.upc=products.upc),
+                prod_name =  (
+                    select name from products2  where order_items.upc = products2.upc);
 
             UPDATE orders o
                 SET total_cost = f.valsum
@@ -57,4 +60,6 @@ insert into orders values (1,0,1);
 insert into order_items values (1, 302);
 insert into order_items values (1, 5);
 insert into order_items values (1, 100);
+insert into order_items values (1, 101);
+
 

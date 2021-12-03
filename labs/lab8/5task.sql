@@ -32,7 +32,7 @@ ON mems.memid = recs.recommender
 
 SELECT recs.member member, recs.recommender, mems.firstname, mems.surname
 FROM recommenders recs
-INNER JOIN cd.members mems
+INNER JOIN members mems
 ON recs.recommender = mems.memid
 WHERE recs.member = 22 OR recs.member = 12
 ORDER BY recs.member ASC, recs.recommender DESC
